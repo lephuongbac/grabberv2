@@ -1,0 +1,170 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=utf-8 />
+<meta content="True" name="HandheldFriendly">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+<!--[if IE]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/bootstrap.js"></script>
+<link class="jsbin" href="<c:url value="/static/css/style.css"/>" rel="stylesheet" type="text/css" />
+<c:if test="${title !=null}">
+	<title><c:out value="${title}"/></title>	
+</c:if>
+<c:if test="${title ==null}">
+	<title>Music player</title>	
+</c:if>
+<link rel="shortcut icon" href="<c:url value="/favico.ico"/>"/>
+<script>
+  (function() {
+    var cx = '007531537103619699408:rzofvqnfdzq';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+</head>
+<body data-spy="scroll" style="background-color: rgb(240, 240, 240);" >
+	<header class="header">
+		<form id="frmGrabber" method="post" action="./PlayAjax" class="form-search">
+				<div class="formHeader container">
+					<div class="exploer"><h1>Tìm kiếm</h1></div> 
+					<div class="input-append" style="padding-left: 10px;">
+						<input id="requesturl" type="text" name="fileUrl" placeholder="Nhập tên bài hát, album bạn muốn nghe" class="search-query input-xxlarge"></input>
+						<!-- <span class="request-method-dropdown">
+							<i class="favorite-icon icon-star-empty"></i>
+						</span> -->
+						<button type="submit" class="btn">Go</button>
+					</div>	
+				</div>	
+		</form>
+	</header>
+	<article>
+		<div id="wrapper" class="container">
+			<div id="search">
+				<gcse:search></gcse:search>
+			</div>
+			<div id="content" class="row">
+				<div class="span8">
+					<div style="background-color: rgb(255, 255, 255); border-radius: 5px 5px 5px 5px; box-shadow: 0px 0px 3px rgb(170, 170, 170); padding: 5px;">
+						<div id="album-info" style="position: relative">
+							<c:if test="${not empty playlistDecorator }">
+								<div class="album-images">
+									<a class="albumCover" href="#"><img width="185px" height="185px" style="width: 185px; height: 185px;" src="http://nodeunblock.com/proxy/${playlistDecorator.playlistInfo.playlistImageCover}"/></a>
+								</div>
+								<div class="album-content" style="min-height: 200px;">
+									<h2 style="font-size: 25px;">${playlistDecorator.title}</h2>
+										<table>
+											<tr>
+												<td><span style="color:#999999;">Năm phát hành:</span> </td>
+												<td><span>${playlistDecorator.playlistInfo.publishedYear}</span></td>
+											</tr>
+											<tr>
+												<td><span style="color:#999999;">Ca sĩ:</span> </td>
+												<td><span>Bằng Kiều</span></td>
+											</tr>
+										</table>
+									<p>
+										<span>${playlistDecorator.playlistInfo.description}</span>
+									</p>
+								</div>
+							</c:if>
+						</div>
+						<div class="toolbox">
+							<ul>
+								<li class="player">
+									<a title="Play" class="album_play" name="script_btn" href="javascript:;">Play</a>
+								</li>
+								<li class="do_tel"><a class="wrap" href="#"><i></i>Gửi tới điện thoại</a></li>
+								<li class="do_share"><a class="wrap" href="#"><i></i>Download</a></li>
+								<li class="do_fav"><a class="wrap" href="#"><i></i>Gửi tới điện thoại</a></li>
+							</ul>
+						</div>
+						<div id="playlist" <c:if test="${empty playlistDecorator }">style="display: none;"</c:if>>
+							<c:if test="${not empty playlistDecorator }">
+								<c:if test="${albumTitle == null}">
+									<h4>Download</h4>
+								</c:if>
+								<c:if test="${not empty playlistDecorator.articleDecorators}">
+									<ul class="unstyled" id="mp3">
+										<c:forEach items="${playlistDecorator.articleDecorators}" var="article" varStatus="status">
+											<li>
+												<span class="badge badge-info">${status.index + 1}</span>
+												<!-- <button class="sc-button-play sc-button sc-button-medium" title="Play">Play</button> -->
+												<a class="play" href="<c:out value="${article.downloadLink}"/>" data-playfor="${status.count}" data-dlink="${article.directLink}"><c:out
+															value="${article.title}" /> - <c:out value="${article.performer}"></c:out></a>
+												<span class="download" style="float:right"><button class="btn btn-mini" type="button"><a href='<c:out value="${article.downloadLink}"/>&download=1' download="<c:out value="${article.fileName}"/>"><i class="icon-download"></i>Download</a></button></span>		
+											</li>
+										</c:forEach>
+									</ul>
+								</c:if>
+							</c:if>
+						</div>
+					</div>
+				</div>
+				<div class="span4">
+					<div class="sidebar">
+						<div class="title-main">Mới nghe</div>
+						<ul style="list-style-type: none;">
+							<c:forEach items="${playlists}" var="playlistVal">
+								<c:set value="${playlistVal.value}" var="playlist"/>
+								<li><a href="/Play?albumId=${playlist.playlistId}">${playlist.title}</a></li>
+							</c:forEach>
+						</ul>
+					</div>
+					
+					<div class="sidebar" style="vertical-align: top; padding-bottom: 5px;">
+							<div class="title-main">Mới nghe</div>
+							<ul style="list-style-type: none; margin: 0px; padding: 0px;">
+							<li>
+								<div class="album-sidebar" style="">
+									<img width="55px" src="/static/images/album.jpg" class="img-circle"><a href="/Play?albumId=ZWZA0IZE">Tình Về Nơi Đâu
+									</a>
+								</div>
+							</li>
+							<li>
+								<div class="album-sidebar">
+									<img width="55px" src="/static/images/album.jpg" class="img-circle"><a href="/Play?albumId=ZWZA0IZE">Để Trọn Đời
+										Thương...</a> <span>2012</span>
+								</div>
+							</li>
+							<li>
+								<div class="album-sidebar">
+									<img width="55px" src="/static/images/album.jpg" class="img-circle"><a href="/Play?albumId=ZWZA0IZE">Tình Về Nơi Đâu
+									</a>
+								</div>
+							</li>
+							<li>
+								<div class="album-sidebar">
+									<img width="55px" src="/static/images/album.jpg" class="img-circle"><a href="/Play?albumId=ZWZA0IZE">Tình Về Nơi Đâu
+									</a>
+								</div>
+							</li>
+
+						</ul>
+						</div>
+				</div>
+				
+			</div>
+		</div>
+	</article>
+	<footer>
+		<div id="audioplayer">
+			<div id="player" style="display: none;">
+				<span id="audioplayer_1"></span>
+			</div>
+		</div>
+	</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>	
+<script src="<c:url value="/static/js/bootstrap.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/static/js/player/audio-player.js"/>"></script>  
+<script src="<c:url value="/static/js/grabber.js"/>"></script>
+</body>
+</html>
