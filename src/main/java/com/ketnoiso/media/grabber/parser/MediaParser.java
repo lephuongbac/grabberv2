@@ -1,7 +1,7 @@
 package com.ketnoiso.media.grabber.parser;
 
-import com.ketnoiso.media.grabber.model.PlaylistDecorator;
-import com.ketnoiso.media.grabber.model.PlaylistInfo;
+import com.ketnoiso.media.grabber.core.model.Playlist;
+import com.ketnoiso.media.grabber.core.model.PlaylistInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ public interface MediaParser {
 	 *            the response
 	 * @return the playlist decorator
 	 */
-	public PlaylistDecorator parser(String playlistIdentider, HttpServletRequest request, HttpServletResponse response);
+	public Playlist parser(String playlistIdentider, HttpServletRequest request, HttpServletResponse response);
 	
 	/**
 	 * Parser playlist info.

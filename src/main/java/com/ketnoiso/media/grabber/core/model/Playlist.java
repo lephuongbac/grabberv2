@@ -1,4 +1,4 @@
-package com.ketnoiso.media.grabber.model;
+package com.ketnoiso.media.grabber.core.model;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @XmlRootElement
 @Entity
 @Table(name = "playlist")
-public class PlaylistDecorator implements Serializable {
+public class Playlist implements Serializable {
 
     @Id
     private Long id;
@@ -43,7 +43,7 @@ public class PlaylistDecorator implements Serializable {
      * The article decorators.
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist")
-    private List<ArticleDecorator> articleDecorators;
+    private List<Article> articles;
 
     /**
      * The playlist info.
@@ -108,19 +108,19 @@ public class PlaylistDecorator implements Serializable {
     /**
      * Gets the article decorators.
      *
-     * @return the articleDecorators
+     * @return the articles
      */
-    public List<ArticleDecorator> getArticleDecorators() {
-        return articleDecorators;
+    public List<Article> getArticles() {
+        return articles;
     }
 
     /**
      * Sets the article decorators.
      *
-     * @param articleDecorators the articleDecorators to set
+     * @param articles the articles to set
      */
-    public void setArticleDecorators(List<ArticleDecorator> articleDecorators) {
-        this.articleDecorators = articleDecorators;
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     /**

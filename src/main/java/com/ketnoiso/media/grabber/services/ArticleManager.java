@@ -1,8 +1,8 @@
 package com.ketnoiso.media.grabber.services;
 
 
-import com.ketnoiso.media.grabber.model.ArticleDecorator;
-import com.ketnoiso.media.grabber.model.PlaylistDecorator;
+import com.ketnoiso.media.grabber.core.model.Article;
+import com.ketnoiso.media.grabber.core.model.Playlist;
 import com.ketnoiso.media.grabber.model.Item;
 
 /**
@@ -18,7 +18,7 @@ public interface ArticleManager {
 	 *            the playlist decorator
 	 * @return the article decorator
 	 */
-	public ArticleDecorator getArticleDecorator(Item item, PlaylistDecorator playlistDecorator);
+	public Article getArticleDecorator(Item item, Playlist playlistDecorator);
 	
 	/**
 	 * Extract song id.

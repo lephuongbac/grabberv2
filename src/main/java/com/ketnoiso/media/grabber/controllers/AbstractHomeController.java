@@ -1,6 +1,6 @@
 package com.ketnoiso.media.grabber.controllers;
 
-import com.ketnoiso.media.grabber.model.PlaylistDecorator;
+import com.ketnoiso.media.grabber.core.model.Playlist;
 import com.ketnoiso.core.helper.ZingParser;
 import com.ketnoiso.media.grabber.model.Data;
 import com.ketnoiso.media.grabber.model.Item;
@@ -50,8 +50,8 @@ public abstract class AbstractHomeController {
 	 *            the link album
 	 * @return the album decorator
 	 */
-	public PlaylistDecorator getAlbumDecorator(String linkAlbum) {
-		PlaylistDecorator albumDecorator = new PlaylistDecorator();
+	public Playlist getAlbumDecorator(String linkAlbum) {
+		Playlist albumDecorator = new Playlist();
 		try {
 			String xmlUrl = "";
 			URL url = new URL(
@@ -108,7 +108,7 @@ public abstract class AbstractHomeController {
 	 *            the response
 	 * @return the mp3 item
 	 */
-	public ArrayList<Item> getMp3Item(PlaylistDecorator albumDecorator,HttpServletRequest request, HttpServletResponse response) {
+	public ArrayList<Item> getMp3Item(Playlist albumDecorator,HttpServletRequest request, HttpServletResponse response) {
 		ArrayList<Item> mp3Items = new ArrayList<Item>();
 		try {
 			String playlistUrl = albumDecorator.getPlaylistUrl();

@@ -92,9 +92,9 @@
 								<c:if test="${albumTitle == null}">
 									<h4>Download</h4>
 								</c:if>
-								<c:if test="${not empty playlistDecorator.articleDecorators}">
+								<c:if test="${not empty playlistDecorator.articles}">
 									<ul class="unstyled" id="mp3">
-										<c:forEach items="${playlistDecorator.articleDecorators}" var="article" varStatus="status">
+										<c:forEach items="${playlistDecorator.articles}" var="article" varStatus="status">
 											<li>
 												<span class="badge badge-info">${status.index + 1}</span>
 												<!-- <button class="sc-button-play sc-button sc-button-medium" title="Play">Play</button> -->

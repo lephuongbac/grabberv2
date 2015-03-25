@@ -1,4 +1,4 @@
-package com.ketnoiso.media.grabber.model;
+package com.ketnoiso.media.grabber.core.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

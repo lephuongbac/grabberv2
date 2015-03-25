@@ -1,7 +1,7 @@
 package com.ketnoiso.media.grabber.services;
 
-import com.ketnoiso.media.grabber.model.ArticleDecorator;
-import com.ketnoiso.media.grabber.model.PlaylistDecorator;
+import com.ketnoiso.media.grabber.core.model.Article;
+import com.ketnoiso.media.grabber.core.model.Playlist;
 import com.ketnoiso.core.helper.UTF8ToAscii;
 import com.ketnoiso.media.grabber.model.Item;
 import org.apache.commons.lang3.StringUtils;
@@ -19,9 +19,9 @@ public class ArticleManagerImpl implements ArticleManager {
 	/* (non-Javadoc)
 	 * @see com.baclp.com.ketnoiso.media.grabber.services.ArticleManager#getArticleDecorator(com.baclp.com.ketnoiso.media.grabber.model.Item, com.baclp.com.ketnoiso.media.grabber.model.PlaylistDecorator)
 	 */
-	public ArticleDecorator getArticleDecorator(Item item, PlaylistDecorator playlistDecorator) {
+	public Article getArticleDecorator(Item item, Playlist playlistDecorator) {
 		if(item != null) {
-			ArticleDecorator articleDecorator = new ArticleDecorator();
+			Article articleDecorator = new Article();
 			articleDecorator.setHq(item.getHq());
 			articleDecorator.setLink(item.getLink());
 			articleDecorator.setPerformer(item.getPerformer());

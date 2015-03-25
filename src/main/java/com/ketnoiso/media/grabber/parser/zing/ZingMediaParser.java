@@ -2,6 +2,9 @@ package com.ketnoiso.media.grabber.parser.zing;
 
 
 import com.ketnoiso.core.helper.ZingParser;
+import com.ketnoiso.media.grabber.core.model.Article;
+import com.ketnoiso.media.grabber.core.model.Playlist;
+import com.ketnoiso.media.grabber.core.model.PlaylistInfo;
 import com.ketnoiso.media.grabber.services.ArticleManager;
 import com.ketnoiso.media.grabber.model.*;
 import com.ketnoiso.media.grabber.parser.MediaParser;
@@ -98,17 +101,17 @@ public class ZingMediaParser implements MediaParser {
 	 * javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public PlaylistDecorator parser(String playlistIdentider,
+	public Playlist parser(String playlistIdentider,
 			HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		PlaylistDecorator playlistDecorator = new PlaylistDecorator();
+		Playlist playlistDecorator = new Playlist();
 		try {
 			String linkAlbum = processPage(playlistIdentider);
 			playlistDecorator = getAlbumInfo(linkAlbum);
 			List<Item> items = getMp3Item(playlistDecorator, request, response);
-			List<ArticleDecorator> articles = new ArrayList<ArticleDecorator>();
+			List<Article> articles = new ArrayList<Article>();
 			for (Item item : items) {
-				ArticleDecorator articleDecorator = articleManager
+				Article articleDecorator = articleManager
 						.getArticleDecorator(item, playlistDecorator);
 				request.setAttribute("albumTitle", playlistDecorator.getTitle());
 				String link = request.getContextPath() + "/Downloader?f="
@@ -118,7 +121,7 @@ public class ZingMediaParser implements MediaParser {
 				articleDecorator.setDownloadLink(link);
 				articles.add(articleDecorator);
 			}
-			playlistDecorator.setArticleDecorators(articles);
+			playlistDecorator.setArticles(articles);
 
 			PlaylistInfo playlistInfo = parserPlaylistInfo(playlistIdentider,
 					request, response);
@@ -163,8 +166,8 @@ public class ZingMediaParser implements MediaParser {
 	 *            the link album
 	 * @return the album info
 	 */
-	public PlaylistDecorator getAlbumInfo(String linkAlbum) {
-		PlaylistDecorator albumDecorator = new PlaylistDecorator();
+	public Playlist getAlbumInfo(String linkAlbum) {
+		Playlist albumDecorator = new Playlist();
 		try {
 
 			String xmlUrl = "";
@@ -224,7 +227,7 @@ public class ZingMediaParser implements MediaParser {
 	 *            the response
 	 * @return the mp3 item
 	 */
-	public ArrayList<Item> getMp3Item(PlaylistDecorator albumDecorator,
+	public ArrayList<Item> getMp3Item(Playlist albumDecorator,
 			HttpServletRequest request, HttpServletResponse response) {
 		ArrayList<Item> mp3Items = new ArrayList<Item>();
 		try {

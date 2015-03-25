@@ -1,4 +1,4 @@
-package com.ketnoiso.media.grabber.model;
+package com.ketnoiso.media.grabber.core.model;
 
 import com.ketnoiso.core.helper.UTF8ToAscii;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @XmlRootElement
 @Entity
-public class ArticleDecorator implements Serializable {
+public class Article implements Serializable {
 	@Id
 	private Long id;
 	/** The Constant serialVersionUID. */
@@ -48,7 +48,7 @@ public class ArticleDecorator implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="playlist_id",referencedColumnName="id",nullable=false,unique=true)
-	private PlaylistDecorator playlist;
+	private Playlist playlist;
 	
 	/**
 	 * Gets the song id.

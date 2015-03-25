@@ -1,6 +1,6 @@
 package com.ketnoiso.media.grabber.controllers;
 
-import com.ketnoiso.media.grabber.model.PlaylistDecorator;
+import com.ketnoiso.media.grabber.core.model.Playlist;
 import com.ketnoiso.media.grabber.services.ArticleManager;
 import com.ketnoiso.media.grabber.parser.MediaParser;
 import org.apache.commons.lang3.StringUtils;
@@ -90,31 +90,31 @@ public class HomeController extends AbstractHomeController {
 	public ModelAndView handleZingMp3(@RequestParam(required=false) String albumId, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelMap model = new ModelMap();
-		HashMap<String,PlaylistDecorator> playLists;
+		HashMap<String,Playlist> playLists;
 		Object obj = request.getSession().getAttribute(HomeController.SESSION_PLAYLIST_DECORATOR_ID);
 		if(obj == null) {
-			playLists = new HashMap<String,PlaylistDecorator>(); 
+			playLists = new HashMap<String,Playlist>();
 		} else {
-			playLists = (HashMap<String,PlaylistDecorator>) obj;
+			playLists = (HashMap<String,Playlist>) obj;
 		}
 		
 		if(!StringUtils.isEmpty(albumId)) {
-			PlaylistDecorator playlistDecorator = null;
+			Playlist playlistDecorator = null;
 			File savePathFile = new File(new File(context.getRealPath(""),fileLocation), albumId);
 			File playlistXmlData = new File(savePathFile, PLAYLIST_DATA_FILENAME);
 			if(playlistXmlData.exists() && playlistXmlData.isFile()) {
-				JAXBContext  context = JAXBContext.newInstance(PlaylistDecorator.class);
+				JAXBContext  context = JAXBContext.newInstance(Playlist.class);
 				Unmarshaller unmarshaller = context.createUnmarshaller();
 				
 				InputStream inputStream = new FileInputStream(playlistXmlData);
 				Reader reader = new InputStreamReader(inputStream, "UTF-8");
 				
-				playlistDecorator = (PlaylistDecorator) unmarshaller.unmarshal(reader);
+				playlistDecorator = (Playlist) unmarshaller.unmarshal(reader);
 			} else {
 				MediaParser parser = (MediaParser) beanFactory.getBean("zingMediaParser");
 				playlistDecorator = parser.parser(albumId, request, response);
 				
-				JAXBContext  context = JAXBContext.newInstance(PlaylistDecorator.class);
+				JAXBContext  context = JAXBContext.newInstance(Playlist.class);
 				Marshaller marshaller = context.createMarshaller();
 				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 				marshaller.marshal(playlistDecorator, playlistXmlData);
@@ -149,7 +149,7 @@ public class HomeController extends AbstractHomeController {
 	 *             the JAXB exception
 	 */
 	@RequestMapping(value="/grab")
-	protected PlaylistDecorator doPost(@RequestParam String fileUrl,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, JAXBException {
+	protected Playlist doPost(@RequestParam String fileUrl,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, JAXBException {
 		// TODO Auto-generated method stub
 		
 		String linkAlbum = fileUrl;
@@ -161,15 +161,15 @@ public class HomeController extends AbstractHomeController {
 		String albumId = extractAlbumId(linkAlbum);
 		
 		String json = null;
-		HashMap<String,PlaylistDecorator> playLists;
+		HashMap<String,Playlist> playLists;
 		Object obj = request.getSession().getAttribute(HomeController.SESSION_PLAYLIST_DECORATOR_ID);
 		if(obj == null) {
-			playLists = new HashMap<String,PlaylistDecorator>(); 
+			playLists = new HashMap<String,Playlist>();
 		} else {
-			playLists = (HashMap<String,PlaylistDecorator>) obj;
+			playLists = (HashMap<String,Playlist>) obj;
 		}
 		
-		PlaylistDecorator playlistDecorator = null;
+		Playlist playlistDecorator = null;
 		if(!StringUtils.isEmpty(albumId)) {
 			File savePathFile = new File(new File(context.getRealPath(""),fileLocation), albumId);
 			if(!savePathFile.exists()) {	
@@ -177,18 +177,18 @@ public class HomeController extends AbstractHomeController {
 			}
 			File playlistXmlData = new File(savePathFile, PLAYLIST_DATA_FILENAME);
 			if(playlistXmlData.exists() && playlistXmlData.isFile()) {
-				JAXBContext  context = JAXBContext.newInstance(PlaylistDecorator.class);
+				JAXBContext  context = JAXBContext.newInstance(Playlist.class);
 				Unmarshaller unmarshaller = context.createUnmarshaller();
 				
 				InputStream inputStream = new FileInputStream(playlistXmlData);
 				Reader reader = new InputStreamReader(inputStream, "UTF-8");
 				
-				playlistDecorator = (PlaylistDecorator) unmarshaller.unmarshal(reader);
+				playlistDecorator = (Playlist) unmarshaller.unmarshal(reader);
 			} else {
 				MediaParser parser = (MediaParser) beanFactory.getBean("zingMediaParser");
 				playlistDecorator = parser.parser(albumId, request, response);
 				
-				JAXBContext  context = JAXBContext.newInstance(PlaylistDecorator.class);
+				JAXBContext  context = JAXBContext.newInstance(Playlist.class);
 				Marshaller marshaller = context.createMarshaller();
 				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 				marshaller.marshal(playlistDecorator, playlistXmlData);
