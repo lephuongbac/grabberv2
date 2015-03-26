@@ -22,7 +22,7 @@ public interface MediaParser {
 	 *            the response
 	 * @return the playlist decorator
 	 */
-	public Playlist parser(String playlistIdentider, HttpServletRequest request, HttpServletResponse response);
+	public Playlist parser(String playlistIdentider);
 	
 	/**
 	 * Parser playlist info.
@@ -35,5 +35,5 @@ public interface MediaParser {
 	 *            the response
 	 * @return the playlist info
 	 */
-	public PlaylistInfo parserPlaylistInfo(String playlistIdentider, HttpServletRequest request, HttpServletResponse response);
+	public PlaylistInfo parserPlaylistInfo(String playlistIdentider);
 }

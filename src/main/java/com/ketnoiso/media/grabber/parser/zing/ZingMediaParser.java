@@ -5,9 +5,10 @@ import com.ketnoiso.core.helper.ZingParser;
 import com.ketnoiso.media.grabber.core.model.Article;
 import com.ketnoiso.media.grabber.core.model.Playlist;
 import com.ketnoiso.media.grabber.core.model.PlaylistInfo;
-import com.ketnoiso.media.grabber.services.ArticleManager;
-import com.ketnoiso.media.grabber.model.*;
+import com.ketnoiso.media.grabber.model.Data;
+import com.ketnoiso.media.grabber.model.Item;
 import com.ketnoiso.media.grabber.parser.MediaParser;
+import com.ketnoiso.media.grabber.services.ArticleManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,8 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -101,20 +100,19 @@ public class ZingMediaParser implements MediaParser {
 	 * javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public Playlist parser(String playlistIdentider,
-			HttpServletRequest request, HttpServletResponse response) {
+	public Playlist parser(String playlistIdentider) {
 		// TODO Auto-generated method stub
 		Playlist playlistDecorator = new Playlist();
 		try {
 			String linkAlbum = processPage(playlistIdentider);
 			playlistDecorator = getAlbumInfo(linkAlbum);
-			List<Item> items = getMp3Item(playlistDecorator, request, response);
+			List<Item> items = getMp3Item(playlistDecorator);
 			List<Article> articles = new ArrayList<Article>();
 			for (Item item : items) {
 				Article articleDecorator = articleManager
 						.getArticleDecorator(item, playlistDecorator);
-				request.setAttribute("albumTitle", playlistDecorator.getTitle());
-				String link = request.getContextPath() + "/Downloader?f="
+				/*request.setAttribute("albumTitle", playlistDecorator.getTitle());*/
+				String link = "/Downloader?f="
 						+ articleDecorator.getSongId() + "&albumId="
 						+ playlistDecorator.getPlaylistId() + "&fileName="
 						+ articleDecorator.getFileName();
@@ -123,15 +121,12 @@ public class ZingMediaParser implements MediaParser {
 			}
 			playlistDecorator.setArticles(articles);
 
-			PlaylistInfo playlistInfo = parserPlaylistInfo(playlistIdentider,
-					request, response);
+			PlaylistInfo playlistInfo = parserPlaylistInfo(playlistIdentider);
 			playlistDecorator.setPlaylistInfo(playlistInfo);
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return playlistDecorator;
@@ -221,14 +216,9 @@ public class ZingMediaParser implements MediaParser {
 	 * 
 	 * @param albumDecorator
 	 *            the album decorator
-	 * @param request
-	 *            the request
-	 * @param response
-	 *            the response
 	 * @return the mp3 item
 	 */
-	public ArrayList<Item> getMp3Item(Playlist albumDecorator,
-			HttpServletRequest request, HttpServletResponse response) {
+	public ArrayList<Item> getMp3Item(Playlist albumDecorator) {
 		ArrayList<Item> mp3Items = new ArrayList<Item>();
 		try {
 			String playlistUrl = albumDecorator.getPlaylistUrl();
@@ -271,8 +261,7 @@ public class ZingMediaParser implements MediaParser {
 	 * javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public PlaylistInfo parserPlaylistInfo(String playlistIdentider,
-			HttpServletRequest request, HttpServletResponse response) {
+	public PlaylistInfo parserPlaylistInfo(String playlistIdentider) {
 		// TODO Auto-generated method stub
 
 		PlaylistInfo playlistInfo = new PlaylistInfo();

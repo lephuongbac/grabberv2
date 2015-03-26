@@ -112,7 +112,7 @@ public class HomeController extends AbstractHomeController {
 				playlistDecorator = (Playlist) unmarshaller.unmarshal(reader);
 			} else {
 				MediaParser parser = (MediaParser) beanFactory.getBean("zingMediaParser");
-				playlistDecorator = parser.parser(albumId, request, response);
+				playlistDecorator = parser.parser(albumId);
 				
 				JAXBContext  context = JAXBContext.newInstance(Playlist.class);
 				Marshaller marshaller = context.createMarshaller();
@@ -186,7 +186,7 @@ public class HomeController extends AbstractHomeController {
 				playlistDecorator = (Playlist) unmarshaller.unmarshal(reader);
 			} else {
 				MediaParser parser = (MediaParser) beanFactory.getBean("zingMediaParser");
-				playlistDecorator = parser.parser(albumId, request, response);
+				playlistDecorator = parser.parser(albumId);
 				
 				JAXBContext  context = JAXBContext.newInstance(Playlist.class);
 				Marshaller marshaller = context.createMarshaller();
