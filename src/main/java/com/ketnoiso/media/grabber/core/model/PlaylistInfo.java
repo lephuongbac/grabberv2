@@ -10,7 +10,7 @@ import java.io.Serializable;
  * The Class PlaylistInfo.
  */
 @Entity
-public class PlaylistInfo implements Serializable{
+public class PlaylistInfo extends AbstractModel implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

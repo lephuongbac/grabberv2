@@ -3,6 +3,7 @@ package com.ketnoiso.media.grabber.core.model;
 import com.ketnoiso.core.helper.UTF8ToAscii;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ import java.io.Serializable;
  */
 @XmlRootElement
 @Entity
-public class Article implements Serializable {
+public class Article extends AbstractModel implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -23,6 +24,7 @@ public class Article implements Serializable {
 	private static final long serialVersionUID = 6246771125144228262L;
 	
     /** The song id. */
+    @Transient
 	private String songId;
 	
 	/** The type. */
@@ -32,7 +34,7 @@ public class Article implements Serializable {
 	private String title;
 	
 	/** The performer. */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Singer singer;
 	
 	/** The source. */
@@ -40,6 +42,7 @@ public class Article implements Serializable {
 	private String source;
 	
 	/** The hq. */
+    @Transient
 	private String hq;
 	
 	/** The link. */
@@ -58,6 +61,9 @@ public class Article implements Serializable {
 
     @CreatedDate
     private DateTime createdDate;
+
+    @LastModifiedDate
+    private DateTime lastModifiedDate;
 	
 	/**
 	 * Gets the song id.

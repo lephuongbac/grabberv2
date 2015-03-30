@@ -26,9 +26,15 @@ public class GraberService {
      * @return
      */
     public Playlist savePlaylist(Playlist playlist) {
-        for (Article article : playlist.getArticles()) {
-            article.setPlaylist(playlist);
+        Playlist playlistFromDB = playlistRepository.findPlaylistByPlaylistId(playlist.getPlaylistId());
+        if(playlistFromDB !=null) {
+            return playlistFromDB;
+        } else {
+            for (Article article : playlist.getArticles()) {
+                article.setPlaylist(playlist);
+            }
+            return playlistRepository.save(playlist);
         }
-        return playlistRepository.save(playlist);
+
     }
 }

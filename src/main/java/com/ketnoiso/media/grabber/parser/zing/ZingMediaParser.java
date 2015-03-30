@@ -123,6 +123,7 @@ public class ZingMediaParser implements MediaParser {
 
 			PlaylistInfo playlistInfo = parserPlaylistInfo(playlistIdentider);
 			playlistDecorator.setPlaylistInfo(playlistInfo);
+            playlistDecorator.setSource("zing");
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

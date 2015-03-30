@@ -17,7 +17,7 @@ import java.util.List;
 @XmlRootElement
 @Entity
 @Table(name = "playlists")
-public class Playlist implements Serializable {
+public class Playlist extends AbstractModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
