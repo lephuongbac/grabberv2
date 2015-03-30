@@ -16,6 +16,7 @@ import java.util.List;
  */
 @XmlRootElement
 @Entity
+@Table(name = "playlists")
 public class Playlist implements Serializable {
 
     @Id

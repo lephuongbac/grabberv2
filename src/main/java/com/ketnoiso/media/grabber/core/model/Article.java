@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 /**
@@ -218,7 +219,7 @@ public class Article implements Serializable {
     public void setSinger(Singer singer) {
         this.singer = singer;
     }
-
+    @XmlTransient
     public Playlist getPlaylist() {
         return playlist;
     }

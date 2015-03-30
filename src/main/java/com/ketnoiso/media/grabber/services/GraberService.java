@@ -1,5 +1,6 @@
 package com.ketnoiso.media.grabber.services;
 
+import com.ketnoiso.media.grabber.core.model.Article;
 import com.ketnoiso.media.grabber.core.model.Playlist;
 import com.ketnoiso.media.grabber.repository.ArticleRepository;
 import com.ketnoiso.media.grabber.repository.PlaylistRepository;
@@ -25,6 +26,9 @@ public class GraberService {
      * @return
      */
     public Playlist savePlaylist(Playlist playlist) {
+        for (Article article : playlist.getArticles()) {
+            article.setPlaylist(playlist);
+        }
         return playlistRepository.save(playlist);
     }
 }
