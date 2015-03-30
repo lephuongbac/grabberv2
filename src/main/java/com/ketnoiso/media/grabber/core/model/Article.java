@@ -1,8 +1,11 @@
 package com.ketnoiso.media.grabber.core.model;
 
 import com.ketnoiso.core.helper.UTF8ToAscii;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
@@ -13,11 +16,12 @@ import java.io.Serializable;
 @Entity
 public class Article implements Serializable {
 	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6246771125144228262L;
 	
-	/** The song id. */
+    /** The song id. */
 	private String songId;
 	
 	/** The type. */
@@ -27,28 +31,32 @@ public class Article implements Serializable {
 	private String title;
 	
 	/** The performer. */
-	private String performer;
+    @ManyToOne(cascade = CascadeType.ALL)
+	private Singer singer;
 	
 	/** The source. */
+    @Transient
 	private String source;
 	
 	/** The hq. */
 	private String hq;
 	
 	/** The link. */
+    @Transient
 	private String link;
 	
-	/** The download link. */
-	private String downloadLink;
-	
 	/** The direct link. */
+    @Transient
 	private String directLink;
 	
 	private String fileName;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="playlist_id",referencedColumnName="id",nullable=false,unique=true)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "playlist_id")
 	private Playlist playlist;
+
+    @CreatedDate
+    private DateTime createdDate;
 	
 	/**
 	 * Gets the song id.
@@ -108,25 +116,6 @@ public class Article implements Serializable {
 	}
 	
 	/**
-	 * Gets the performer.
-	 * 
-	 * @return the performer
-	 */
-	public String getPerformer() {
-		return performer;
-	}
-	
-	/**
-	 * Sets the performer.
-	 * 
-	 * @param performer
-	 *            the performer to set
-	 */
-	public void setPerformer(String performer) {
-		this.performer = performer;
-	}
-	
-	/**
 	 * Gets the source.
 	 * 
 	 * @return the source
@@ -183,25 +172,6 @@ public class Article implements Serializable {
 		this.link = link;
 	}
 	
-	/**
-	 * Gets the download link.
-	 * 
-	 * @return the downloadLink
-	 */
-	public String getDownloadLink() {
-		return downloadLink;
-	}
-	
-	/**
-	 * Sets the download link.
-	 * 
-	 * @param downloadLink
-	 *            the downloadLink to set
-	 */
-	public void setDownloadLink(String downloadLink) {
-		this.downloadLink = downloadLink;
-	}
-    
     /**
 	 * Sets the direct link.
 	 * 
@@ -240,4 +210,20 @@ public class Article implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+    public Singer getSinger() {
+        return singer;
+    }
+
+    public void setSinger(Singer singer) {
+        this.singer = singer;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+    }
 }

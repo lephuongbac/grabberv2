@@ -1,6 +1,8 @@
 package com.ketnoiso.media.grabber.core.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,10 +16,10 @@ import java.util.List;
  */
 @XmlRootElement
 @Entity
-@Table(name = "playlist")
 public class Playlist implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     /**
      * The Constant serialVersionUID.
@@ -39,17 +41,22 @@ public class Playlist implements Serializable {
      */
     private String playlistUrl;
 
+    @CreatedDate
+    private DateTime createdDate;
+
     /**
      * The article decorators.
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist",cascade = CascadeType.ALL)
     private List<Article> articles;
 
     /**
      * The playlist info.
      */
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private PlaylistInfo playlistInfo;
+
+    private String source;
 
     /**
      * Gets the title.
@@ -147,5 +154,13 @@ public class Playlist implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

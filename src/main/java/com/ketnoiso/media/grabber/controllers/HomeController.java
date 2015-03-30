@@ -3,6 +3,7 @@ package com.ketnoiso.media.grabber.controllers;
 import com.ketnoiso.media.grabber.core.model.Playlist;
 import com.ketnoiso.media.grabber.services.ArticleManager;
 import com.ketnoiso.media.grabber.parser.MediaParser;
+import com.ketnoiso.media.grabber.services.GraberService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,14 @@ public class HomeController extends AbstractHomeController {
 	/** The article manager. */
 	@Autowired
 	private ArticleManager articleManager;
+
+    @Autowired
+    private GraberService graberService;
 	
 	/** Spring bean factory. */
 	@Autowired
 	private BeanFactory beanFactory;
-	
+
 	/** The Constant SESSION_PLAYLIST_DECORATOR_ID. */
 	public static final String SESSION_PLAYLIST_DECORATOR_ID = "playlist";
 	
@@ -197,6 +201,7 @@ public class HomeController extends AbstractHomeController {
 			playLists.put(playlistDecorator.getPlaylistId(), playlistDecorator);
 		}
 		request.getSession().setAttribute(SESSION_PLAYLIST_DECORATOR_ID, playLists);
+        graberService.savePlaylist(playlistDecorator);
 		return playlistDecorator;
 	}
 	

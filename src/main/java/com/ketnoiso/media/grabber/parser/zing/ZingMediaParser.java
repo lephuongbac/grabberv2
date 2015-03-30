@@ -112,11 +112,11 @@ public class ZingMediaParser implements MediaParser {
 				Article articleDecorator = articleManager
 						.getArticleDecorator(item, playlistDecorator);
 				/*request.setAttribute("albumTitle", playlistDecorator.getTitle());*/
-				String link = "/Downloader?f="
+				/*String link = "/Downloader?f="
 						+ articleDecorator.getSongId() + "&albumId="
 						+ playlistDecorator.getPlaylistId() + "&fileName="
 						+ articleDecorator.getFileName();
-				articleDecorator.setDownloadLink(link);
+				articleDecorator.setDownloadLink(link);*/
 				articles.add(articleDecorator);
 			}
 			playlistDecorator.setArticles(articles);

@@ -1,72 +1,38 @@
 package com.ketnoiso.media.grabber.core.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * The Class PlaylistInfo.
  */
 @Entity
-@Table(name="playlist")
 public class PlaylistInfo implements Serializable{
 	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/** The play count. */
-	private int playCount;
+	private Integer playCount;
 	
 	/** The published year. */
-	private int publishedYear;
+	private Integer publishedYear;
 	
 	/** The description. */
 	private String description;
 	
 	/** The playlist image cover. */
 	private String playlistImageCover;
-	
-	/**
-	 * Gets the play count.
-	 * 
-	 * @return the play count
-	 */
-	public int getPlayCount() {
-		return playCount;
-	}
-	
-	/**
-	 * Sets the play count.
-	 * 
-	 * @param playCount
-	 *            the new play count
-	 */
-	public void setPlayCount(int playCount) {
-		this.playCount = playCount;
-	}
-	
-	/**
-	 * Gets the published year.
-	 * 
-	 * @return the published year
-	 */
-	public int getPublishedYear() {
-		return publishedYear;
-	}
-	
-	/**
-	 * Sets the published year.
-	 * 
-	 * @param publishedYear
-	 *            the new published year
-	 */
-	public void setPublishedYear(int publishedYear) {
-		this.publishedYear = publishedYear;
-	}
-	
+
+    @CreatedDate
+    private DateTime createdDate;
+
 	/**
 	 * Gets the description.
 	 * 
@@ -104,6 +70,28 @@ public class PlaylistInfo implements Serializable{
 	public void setPlaylistImageCover(String playlistImageCover) {
 		this.playlistImageCover = playlistImageCover;
 	}
-	
-	
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getPlayCount() {
+        return playCount;
+    }
+
+    public void setPlayCount(Integer playCount) {
+        this.playCount = playCount;
+    }
+
+    public Integer getPublishedYear() {
+        return publishedYear;
+    }
+
+    public void setPublishedYear(Integer publishedYear) {
+        this.publishedYear = publishedYear;
+    }
 }
