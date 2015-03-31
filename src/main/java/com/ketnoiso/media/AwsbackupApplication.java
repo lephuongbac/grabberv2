@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAutoConfiguration
 @EnableScheduling
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = {"com.ketnoiso.core","com.ketnoiso.media"})
 @EnableJpaAuditing
 public class AwsbackupApplication {
     public static void main(String[] args) {

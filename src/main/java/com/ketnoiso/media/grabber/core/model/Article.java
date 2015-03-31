@@ -1,5 +1,6 @@
 package com.ketnoiso.media.grabber.core.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ketnoiso.core.helper.UTF8ToAscii;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,7 +35,7 @@ public class Article extends AbstractModel implements Serializable {
 	private String title;
 	
 	/** The performer. */
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Singer singer;
 	
 	/** The source. */
@@ -57,6 +58,7 @@ public class Article extends AbstractModel implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "playlist_id")
+    @JsonBackReference
 	private Playlist playlist;
 
     @CreatedDate

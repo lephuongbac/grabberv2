@@ -1,5 +1,7 @@
 package com.ketnoiso.media.grabber.core.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -48,7 +50,8 @@ public class Playlist extends AbstractModel implements Serializable {
     /**
      * The article decorators.
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "playlist",cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Article> articles;
 
     /**

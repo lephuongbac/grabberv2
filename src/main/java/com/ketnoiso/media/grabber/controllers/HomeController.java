@@ -152,7 +152,7 @@ public class HomeController extends AbstractHomeController {
 	 * @throws javax.xml.bind.JAXBException
 	 *             the JAXB exception
 	 */
-	@RequestMapping(value="/grab")
+	@RequestMapping(value="/grab",produces = "application/json")
 	protected Playlist doPost(@RequestParam String fileUrl,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, JAXBException {
 		// TODO Auto-generated method stub
 		
@@ -201,7 +201,7 @@ public class HomeController extends AbstractHomeController {
 			playLists.put(playlistDecorator.getPlaylistId(), playlistDecorator);
 		}
 		request.getSession().setAttribute(SESSION_PLAYLIST_DECORATOR_ID, playLists);
-        graberService.savePlaylist(playlistDecorator);
+        playlistDecorator = graberService.savePlaylist(playlistDecorator);
 		return playlistDecorator;
 	}
 	
